@@ -1,0 +1,249 @@
+#!/usr/bin/env python3
+
+import matplotlib.pyplot as plt
+import numpy as np
+import argparse
+import colorsys
+import h5py
+import husl
+import glob
+import os
+import pickle
+from itertools import chain
+from scipy import interpolate
+from scipy.optimize import brentq
+from matplotlib import ticker
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib import patches
+from matplotlib import gridspec
+
+aspect = 1/1.618
+resolution = 72.27
+columnwidth = 246/resolution
+textwidth = 510/resolution
+textiny, texsmall, texnormal = 8.0, 9.25, 10.0
+
+plt.rcdefaults()
+plt.rcParams.update({
+	'font.family': 'sans-serif',
+	'font.serif': ['CMU Serif'],
+	'font.size': texsmall,
+	'legend.fontsize': texsmall,
+	'axes.labelsize': texsmall,
+	'axes.titlesize': texsmall,
+	'xtick.labelsize': textiny,
+	'ytick.labelsize': textiny,
+	'font.weight': 400,
+	'axes.labelweight': 400,
+	'axes.titleweight': 400,
+	'lines.linewidth': .9,
+	'lines.markersize': 3,
+	'lines.markeredgewidth': .1,
+	'patch.linewidth': .9,
+	'axes.linewidth': .5,
+	'xtick.major.width': .5,
+	'ytick.major.width': .5,
+	'xtick.minor.width': .5,
+	'ytick.minor.width': .5,
+	'xtick.major.size': 2,
+	'ytick.major.size': 2,
+	'xtick.minor.size': 1.3,
+	'ytick.minor.size': 1.3,
+	'xtick.major.pad': 1.8,
+	'ytick.major.pad': 1.8,
+	'text.color': 'black',
+	'axes.edgecolor': 'black',
+	'axes.labelcolor': 'black',
+	'xtick.color': 'black',
+	'ytick.color': 'black',
+	'legend.numpoints': 1,
+	'legend.scatterpoints': 1,
+	'legend.frameon': False,
+	'image.interpolation': 'none',
+	'pdf.fonttype': 42,
+})
+
+
+
+plot_functions = {}
+
+
+def plot(f):
+	def wrapper(*args, **kwargs):
+		print(f.__name__)
+		f(*args, **kwargs)
+		plt.savefig('{}.pdf'.format(f.__name__))
+		plt.close()
+
+	plot_functions[f.__name__] = wrapper
+
+	return wrapper
+
+
+def finish(despine=True, remove_ticks=False, pad=0.1, h_pad=None, w_pad=None,
+		   rect=[0, 0, 1, 1]):
+	fig = plt.gcf()
+
+	for ax in fig.axes:
+		if despine:
+			for spine in 'top', 'right':
+				ax.spines[spine].set_visible(False)
+
+		if remove_ticks:
+			for ax_name in 'xaxis', 'yaxis':
+				getattr(ax, ax_name).set_ticks_position('none')
+		else:
+			ax.xaxis.set_ticks_position('bottom')
+			ax.yaxis.set_ticks_position('left')
+
+	fig.tight_layout(pad=pad, h_pad=h_pad, w_pad=w_pad, rect=rect)
+
+
+def set_loc(ax, xy=None, nbins=5, steps=[1, 2, 3, 4, 5, 10],
+			prune=None, minor=0):
+	if xy == 'x':
+		axes = ax.xaxis,
+	elif xy == 'y':
+		axes = ax.yaxis,
+	else:
+		axes = ax.xaxis, ax.yaxis
+
+	for axis in axes:
+		axis.set_major_locator(
+			ticker.MaxNLocator(nbins=nbins, steps=steps, prune=prune)
+		)
+		if minor:
+			axis.set_minor_locator(ticker.AutoMinorLocator(minor))
+
+
+def desaturate(color, fraction=0.5):
+	h, l, s = colorsys.rgb_to_hls(*color[:3])
+	return colorsys.hls_to_rgb(h, l, fraction*s)
+
+
+def recolor(color, f1=0.7, f2=0.7):
+	h, l, s = colorsys.rgb_to_hls(*color[:3])
+	return colorsys.hls_to_rgb(h, f1*l, f2*s)
+
+
+def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
+	new_cmap = LinearSegmentedColormap.from_list(
+		'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
+		cmap(np.linspace(minval, maxval, n)))
+	return new_cmap
+
+
+TRENTO_LABEL = r'T\raisebox{-.5ex}{R}ENTo'
+
+cm1, cm2 = plt.cm.Blues(.8), plt.cm.Reds(.8)
+cb,co,cg,cr = plt.cm.Blues(.6), \
+	plt.cm.Oranges(.6), plt.cm.Greens(.6), plt.cm.Reds(.6)
+offblack = '#262626'
+gray = '0.8'
+
+cmap_Red=LinearSegmentedColormap.from_list(
+	'Reds_mod',
+	[recolor(rgba[:3]) if i!=0 else plt.cm.Greys(0)[:3]
+	for i, rgba in enumerate(plt.cm.Reds(np.linspace(0, 1, 20)))]
+)
+
+
+@plot
+def nuclei_demo():
+	fig, axes = plt.subplots(nrows=2, ncols=2, sharex=True,sharey=True,
+							 figsize=(columnwidth, columnwidth))
+	def avg_nuclei(ax,b):
+		phi = np.linspace(0,np.pi*2, 100)
+		r = 7.
+		x1 = r*np.cos(phi)-b/2.
+		y1 = r*np.sin(phi)
+		x2 = r*np.cos(phi)+b/2.
+		y2 = r*np.sin(phi)
+		ax.plot(x1, y1, '-', color=cr, alpha=0.5)
+		ax.plot(x2, y2, '-', color=cb, alpha=0.5)
+		condition1 = (x1>0) & (y1 > 0)
+		condition2 = (x2<0) & (y2 > 0)
+		x = np.concatenate([x1[condition1], x2[condition2]])
+		y = np.concatenate([y1[condition1], y2[condition2]])
+		ax.fill_between(x, -y, y, hatch='////', facecolor='white',
+						edgecolor=co, alpha=0.5)
+		ax.axis('equal')
+		ax.axis('off')
+		ax.text(12, 11, "Transverse view", ha="center", va="center",
+				rotation=0, size=8,)
+		ax.text(-12, 0, r"$y$", ha="center", va="center",
+				rotation=90, size=8,)
+		ax.text(12, -10, r"$x$", ha="center", va="center",
+				rotation=0, size=8,)
+
+	def bumpy_nuclei(ax, b):
+		phi = np.linspace(0,np.pi*2, 100)
+		r = 7.
+		x1 = r*np.cos(phi)-b/2.
+		y1 = r*np.sin(phi)
+		x2 = r*np.cos(phi)+b/2.
+		y2 = r*np.sin(phi)
+		ax.plot(x1, y1, '--', color=cr, alpha=0.5)
+		ax.plot(x2, y2, '--', color=cb, alpha=0.5)
+		condition1 = (x1>0) & (y1 > 0)
+		condition2 = (x2<0) & (y2 > 0)
+		f = h5py.File("data/ic3d.hdf5", 'r')
+		ds = f['event_0'].value[:,:,49]
+		f.close()
+		ax.imshow(ds, cmap=cmap_Red, extent=[-10,10,-10,10], alpha=0.8)
+		ax.axis('equal')
+		ax.axis('off')
+	def boost_invariant(ax):
+		f = h5py.File("data/ic3d.hdf5", 'r')
+		ds = f['event_0'].value
+		f.close()
+		mid_x = ds[:,49,49]
+		y = np.linspace(-10,10,100)
+		dNdeta = [1 if np.abs(eta) < 3 else np.exp(-0.2*(np.abs(eta)-3.)**2) \
+					for eta in y]
+		ds = np.outer(mid_x, dNdeta*np.cosh(y)/np.sqrt(np.sinh(y)**2+1/0.9**2))
+		ax.imshow(ds, cmap=cmap_Red, extent=[-10,10,-10,10], alpha=0.8)
+		ax.axis('equal')
+		ax.axis('off')
+		ax.text(12, 11, "Side view", ha="center", va="center",
+				rotation=0, size=8,)
+		ax.text(-12, 0, r"$y$", ha="center", va="center",
+				rotation=90, size=8,)
+		ax.text(12, -10, r"$\eta$", ha="center", va="center",
+				rotation=0, size=8,)
+	def TRENTo_3d(ax):
+		f = h5py.File("data/ic3d.hdf5", 'r')
+		ds = f['event_0'].value
+		f.close()
+		ds = ds[:,49,:]
+		ax.imshow(ds, cmap=cmap_Red, extent=[-10,10,-10,10], alpha=0.8)
+		ax.axis('equal')
+		ax.axis('off')
+	avg_nuclei(axes[0,0], 6.)
+	bumpy_nuclei(axes[0,1], 6.)
+	boost_invariant(axes[1,0])
+	TRENTo_3d(axes[1,1])
+
+	finish(pad=1, h_pad=0.5, w_pad=0.5, rect=[0.02, 0.02, 0.98, 0.98])
+
+
+def main():
+	parser = argparse.ArgumentParser()
+	parser.add_argument('plots', nargs='*')
+	args = parser.parse_args()
+
+	if args.plots:
+		for i in args.plots:
+			if i.endswith('.pdf'):
+				i = i[:-4]
+			if i in plot_functions:
+				plot_functions[i]()
+			else:
+				print('unknown plot:', i)
+	else:
+		for f in plot_functions.values():
+			f()
+
+
+if __name__ == "__main__":
+	main()
