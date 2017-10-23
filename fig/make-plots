@@ -200,29 +200,38 @@ def nuclei_demo():
 		dNdeta = [1 if np.abs(eta) < 3 else np.exp(-0.2*(np.abs(eta)-3.)**2) \
 					for eta in y]
 		ds = np.outer(mid_x, dNdeta)
-		ax.imshow(ds, cmap=cmap_Red, extent=[-10,10,-10,10], alpha=0.8)
-		ax.axis('equal')
-		ax.axis('off')
-		ax.text(12, 11, "Side view", ha="center", va="center",
-				rotation=0, size=20,)
-		ax.text(-12, 0, r"$y$", ha="center", va="center",
-				rotation=90, size=20,)
-		ax.text(12, -10, r"$\eta$", ha="center", va="center",
-				rotation=0, size=20,)
+		ax.imshow(ds, cmap=cmap_Red, extent=[-21,-1,-10,10], alpha=0.8)
+		ax.fill_between([-11.5,-10.5],[-6,-6],[7,7],
+						facecolor='None', hatch='//')
+		ax.fill_between([10.5,11.5],[-6,-6],[7,7],
+						facecolor='None', hatch='//')
 	def TRENTo_3d(ax):
 		f = h5py.File("data/ic3d.hdf5", 'r')
 		ds = f['event_0'].value
 		f.close()
 		ds = ds[:,49,:]
-		ax.imshow(ds, cmap=cmap_Red, extent=[-10,10,-10,10], alpha=0.8)
+		ax.imshow(ds, cmap=cmap_Red, extent=[1,21,-10,10], alpha=0.8)
 		ax.axis('equal')
-		ax.axis('off')
-	fig, axes = plt.subplots(nrows=1, ncols=2, sharex=True,sharey=True,
+		ax.annotate(r'$\eta$-invariant', (-11, 8.5),
+ 						va='center', ha='center', size=20)
+		ax.annotate(r'$\eta$-dependent', (11, 8.5),
+						va='center', ha='center', size=20)
+		ax.annotate('Midrapidity', (-11, -8),
+ 						va='center', ha='center', size=20)
+		ax.annotate('Midrapidity', (11, -8),
+						va='center', ha='center', size=20)
+		ax.set_ylabel(r'Transverse direction (x)', size=17)
+		ax.set_xlabel(r'Beam direction ($\eta$)', size=17)
+		ax.set_xticks([])
+		ax.set_yticks([])
+		ax.set_xlim(-20,20)
+		ax.set_ylim(-8,8)
+	fig, axes = plt.subplots(nrows=1, ncols=1, sharex=True,sharey=True,
 							 figsize=(textwidth, columnwidth))
 	#avg_nuclei(axes[0], 6.)
 	#bumpy_nuclei(axes[1], 6.)
-	boost_invariant(axes[0])
-	TRENTo_3d(axes[1])
+	boost_invariant(axes)
+	TRENTo_3d(axes)
 
 	finish(pad=1, h_pad=0.5, w_pad=0.5, rect=[0.02, 0.02, 0.98, 0.98])
 
