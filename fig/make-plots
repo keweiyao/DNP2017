@@ -150,8 +150,6 @@ cmap_Red=LinearSegmentedColormap.from_list(
 
 @plot
 def nuclei_demo():
-	fig, axes = plt.subplots(nrows=2, ncols=2, sharex=True,sharey=True,
-							 figsize=(columnwidth, columnwidth))
 	def avg_nuclei(ax,b):
 		phi = np.linspace(0,np.pi*2, 100)
 		r = 7.
@@ -201,16 +199,16 @@ def nuclei_demo():
 		y = np.linspace(-10,10,100)
 		dNdeta = [1 if np.abs(eta) < 3 else np.exp(-0.2*(np.abs(eta)-3.)**2) \
 					for eta in y]
-		ds = np.outer(mid_x, dNdeta*np.cosh(y)/np.sqrt(np.sinh(y)**2+1/0.9**2))
+		ds = np.outer(mid_x, dNdeta)
 		ax.imshow(ds, cmap=cmap_Red, extent=[-10,10,-10,10], alpha=0.8)
 		ax.axis('equal')
 		ax.axis('off')
 		ax.text(12, 11, "Side view", ha="center", va="center",
-				rotation=0, size=8,)
+				rotation=0, size=20,)
 		ax.text(-12, 0, r"$y$", ha="center", va="center",
-				rotation=90, size=8,)
+				rotation=90, size=20,)
 		ax.text(12, -10, r"$\eta$", ha="center", va="center",
-				rotation=0, size=8,)
+				rotation=0, size=20,)
 	def TRENTo_3d(ax):
 		f = h5py.File("data/ic3d.hdf5", 'r')
 		ds = f['event_0'].value
@@ -219,13 +217,38 @@ def nuclei_demo():
 		ax.imshow(ds, cmap=cmap_Red, extent=[-10,10,-10,10], alpha=0.8)
 		ax.axis('equal')
 		ax.axis('off')
-	avg_nuclei(axes[0,0], 6.)
-	bumpy_nuclei(axes[0,1], 6.)
-	boost_invariant(axes[1,0])
-	TRENTo_3d(axes[1,1])
+	fig, axes = plt.subplots(nrows=1, ncols=2, sharex=True,sharey=True,
+							 figsize=(textwidth, columnwidth))
+	#avg_nuclei(axes[0], 6.)
+	#bumpy_nuclei(axes[1], 6.)
+	boost_invariant(axes[0])
+	TRENTo_3d(axes[1])
 
 	finish(pad=1, h_pad=0.5, w_pad=0.5, rect=[0.02, 0.02, 0.98, 0.98])
 
+@plot
+def pPb():
+	def pPb(ax):
+		f = h5py.File("data/pPb2.hdf5", 'r')
+		ds = f['event_0'].value
+		f.close()
+		ds = ds[:,49,:]
+		ax.imshow(ds, cmap=cmap_Red, extent=[-10,10,-3,3], alpha=0.8)
+		#ax.axis('equal')
+		ax.axis('off')
+
+		ax.text(0,4,r"$p$ + A", ha="center", va="center",
+				rotation=0, size=8,)
+		ax.text(-11, 0, r"$y$", ha="center", va="center",
+				rotation=90, size=8,)
+		ax.text(0, -4, r"$\eta$", ha="center", va="center",
+				rotation=0, size=8,)
+		ax.set_xlim(-10,10)
+		ax.set_ylim(-4,4)
+	fig, axes = plt.subplots(nrows=1, ncols=1, #sharex=True,sharey=True,
+						 figsize=(0.7*columnwidth, 0.4*columnwidth))
+	pPb(axes)
+	plt.subplots_adjust(left=0.2, right=0.8, bottom=0.2, top=0.8)
 
 def main():
 	parser = argparse.ArgumentParser()
