@@ -199,27 +199,32 @@ def nuclei_demo():
 		y = np.linspace(-10,10,100)
 		dNdeta = [1 if np.abs(eta) < 3 else np.exp(-0.2*(np.abs(eta)-3.)**2) \
 					for eta in y]
-		ds = np.outer(mid_x, dNdeta)
+		#ds = np.outer(mid_x, dNdeta)
+		ds = ds[:,49,:]
 		ax.imshow(ds, cmap=cmap_Red, extent=[-21,-1,-10,10], alpha=0.8)
 		ax.fill_between([-11.5,-10.5],[-6,-6],[7,7],
 						facecolor='None', hatch='//')
-		ax.fill_between([10.5,11.5],[-6,-6],[7,7],
-						facecolor='None', hatch='//')
+		#ax.fill_between([8.5,13.5],[1,1],[7,7],
+		#				facecolor='None', hatch='//', edgecolor='g')
+		#ax.fill_between([7.5,8.5],[-6,-6],[0,0],
+		#				facecolor='None', hatch='//', edgecolor='b')
+		#ax.fill_between([13.5,14.5],[-6,-6],[0,0],
+		#				facecolor='None', hatch='//', edgecolor='b')
 	def TRENTo_3d(ax):
 		f = h5py.File("data/ic3d.hdf5", 'r')
 		ds = f['event_0'].value
 		f.close()
 		ds = ds[:,49,:]
-		ax.imshow(ds, cmap=cmap_Red, extent=[1,21,-10,10], alpha=0.8)
+		#ax.imshow(ds, cmap=cmap_Red, extent=[1,21,-10,10], alpha=0.8)
 		ax.axis('equal')
-		ax.annotate(r'$\eta$-invariant', (-11, 8.5),
+		ax.annotate(r'$\eta$-dependent', (-11, 8.5),
  						va='center', ha='center', size=20)
-		ax.annotate(r'$\eta$-dependent', (11, 8.5),
-						va='center', ha='center', size=20)
+		#ax.annotate(r'$\eta$-dependent', (11, 8.5),
+		#				va='center', ha='center', size=20)
 		ax.annotate('Midrapidity', (-11, -8),
  						va='center', ha='center', size=20)
-		ax.annotate('Midrapidity', (11, -8),
-						va='center', ha='center', size=20)
+		#ax.annotate('Midrapidity', (11, -8),
+		#				va='center', ha='center', size=20)
 		ax.set_ylabel(r'Transverse direction (x)', size=17)
 		ax.set_xlabel(r'Beam direction ($\eta$)', size=17)
 		ax.set_xticks([])
@@ -259,6 +264,32 @@ def pPb():
 	pPb(axes)
 	plt.subplots_adjust(left=0.2, right=0.8, bottom=0.2, top=0.8)
 
+@plot
+def hydro():
+	def hy(ax):
+		ax.axis('equal')
+		xp = np.linspace(0,10,100)
+		xm = np.linspace(-10,0,100)
+		ax.plot(xp, xp, 'k-')
+		ax.plot(xm, -xm, 'k-')
+		tau0 = 2.0
+		tauf = 8.0
+		x = np.linspace(-6,6,100)
+		t0 = np.sqrt(tau0**2+x**2)
+		tf = tauf/np.cosh((x/7.)**4)
+		ax.fill_between(x, t0, tf, color='orange')
+		ax.fill_between(x, t0, tf, color='orange')
+		ax.set_xlim(-6,6)
+		ax.set_ylim(-1,11)
+		ax.set_xticks([])
+		ax.set_yticks([])
+		ax.set_xlabel('z')
+		ax.set_ylabel('t')
+	fig, axes = plt.subplots(nrows=1, ncols=1, #sharex=True,sharey=True,
+						 figsize=(columnwidth, columnwidth))
+	hy(axes)
+	#plt.subplots_adjust(left=0.2, right=0.8, bottom=0.2, top=0.8)
+	finish(pad=1, h_pad=0.5, w_pad=0.5, rect=[0.02, 0.02, 0.98, 0.98])
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('plots', nargs='*')

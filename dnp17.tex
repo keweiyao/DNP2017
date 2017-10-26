@@ -18,71 +18,87 @@
 \graphicspath{{fig/}}
 
 \author[Weiyao Ke]{Weiyao Ke, J Scott Moreland, Jonah E Bernhard, and Steffen A Bass}
-\title[3D Initial Condition]{Constraining 3D Hydrodynamic Initial Condition for Relativistic Heavy-ion Collisions from Multiplicity Observables of pA and AA @LHC}
+\title[3D Initial Condition]{Constrain Initial 3D Entropy Production in Relativistic heavy-ion collisions from $p$-Pb and Pb-Pb Collisions. \\
+\vspace*{0.1cm}
+\small PRC 96, 044912 (2017) }
 
 %\setbeamercovered{transparent}
 %\setbeamertemplate{navigation symbols}{}
-%\logo{qcdlogo.pdf}
+\usepackage{pgf}
+\logo{\pgfputat{\pgfxy(0,7.7)}{\pgfbox[right,base]{\includegraphics[height=1cm]{qcdlogo.pdf}}}}
+%\newcommand{\nologo}{\setbeamertemplate{logo}{}}
+
 \institute{Duke University}
 \date{\today}
-%\subject{}
 \newcommand{\TRENTo}{T\raisebox{-0.2em}{R}ENTo~}
 \begin{document}
 
 \begin{frame}
 \titlepage
-\begin{center}
-\small arXiv:1610.08490
-\end{center}
 \end{frame}
 
-\section{Initial condition for 3+1D simulation}
-\begin{frame}{Initial condition for 3+1D simulation}
+\section{Initial condition of heavy-ion collisions}
+\begin{frame}{Initial condition of heavy ion collision}
 \begin{itemize}
-\item Relativistic viscous hydrodynamics is one of the key tools to study heavy ion collisions.
-\item Hydrodynamics initial condition (complicated): energy/entropy density, fluid velocity, stress tensor...
-\item Initial condition uncertainties propagate to the extraction of QGP properties.
-\item Continuous progress in first principal calculation of both 2D (beam direction invariant) and 3D initial condition, but very hard!
-\end{itemize}
+\item Dynamical models of heavy-ion collision (hydrodynamics and other dynamical models), require an initial condition to start.\\
 \begin{center}
-\color{red} What can we learn about 3D initial condition from data?
+Hydro: energy/entropy density, fluid velocity, ...
 \end{center}
+\item Their uncertainties propagate to the extraction of QGP properties.
+\vspace*{0.3cm}
+\item There are continuous progresses in first principal calculation of 2D (beam direction invariant) and 3D initial condition, but very hard.
+\vspace*{0.3cm}
+\item Just look at entropy density. How / what can we learn from data about 3D entropy production?
+\begin{center}
+\colorbox{orange!40}{Systemically comparing a parametric model to data.}
+\end{center}
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Longitudinal fluctuations and asymmetries}
+\begin{frame}{When beam direction evolution becomes important.}
 \begin{itemize}
-\item For midrapidity observables, one usually neglects evolution in the beam direction.
-\item For rapidity dependent observables, includes longitudinal fluctuations.
-\begin{center}
-\includegraphics[width=0.6\textwidth]{nuclei_demo.pdf}
-%\includegraphics[width=0.3\textwidth]{pPb.pdf} 
-\end{center}
-\item For small collision system: even stronger asymmetry.
+\item Looking at midrapidity in A-A, usually assume invariance in beam direction ($\eta$).
+\item Rapidity dependent observables necessitate a 3D initial condition.
+\item In small system ($p$-A): strong asymmetry in beam direction.
 \end{itemize}
+
+\begin{overprint}
+\onslide<1>
+\includegraphics[width=0.67\textwidth]{nuclei_demo_a.pdf}
+\onslide<2>
+\includegraphics[width=0.67\textwidth]{nuclei_demo_b.pdf}
+\onslide<3>
+\includegraphics[width=0.67\textwidth]{nuclei_demo_01.pdf}
+\onslide<4>
+\includegraphics[width=0.67\textwidth]{nuclei_demo_02.pdf}
+\onslide<5->
+\includegraphics[width=0.67\textwidth]{nuclei_demo_02.pdf}
+\includegraphics[width=0.33\textwidth]{pPb-ATLAS.png}\\
+\end{overprint}
+\hspace{9cm}\tiny EPJ C (2016) 76:199
 \end{frame}
+
 
 \section{Parametric longitudinal information}
-\begin{frame}{Midrapidity: phenomenological model \TRENTo \tiny PRC 92, 011901(2015)}
+\begin{frame}{A phenomenological model for 3D entropy production}
+Start from \underline{midrapidity}: parametric model \TRENTo {\tiny PRC 92, 011901(2015)}.
 \begin{itemize}
-\item Nucleons are sampled from Woods-Saxon distribution.
-\item Participants: nucleons participant at least one binary collisions.
 \item Nuclear thickness function, ${\color{blue} T_{A, B}(x_\perp)} = \int dz \rho_{A, B}^{}(z, x_\perp)$.
 \end{itemize}
 
 \begin{columns}
 \begin{column}{0.65\textwidth}
 \begin{itemize}
-\item \TRENTo: mappings from ${\color{blue} T_A(x_\perp), T_B(x_\perp)}$ to midrapidity {\color{red} entropy production},
+\item \TRENTo: mappings from ${\color{blue} T_A, T_B}$ to \underline{midrapidity} entropy production,
 \begin{eqnarray}
 \nonumber
-{\color{red} s_0(x_\perp, \eta=0)} \propto \left(\frac{{\color{blue} T_A}^p + {\color{blue} T_B}^p}{2}\right)^{1/p}.
+s_0(x_\perp, \eta=0) \propto \left(\frac{{\color{blue} T_A}^{\color{red} p} + {\color{blue} T_B}^{\color{red} p}}{2}\right)^{1/{\color{red} p}}.
 \end{eqnarray}
-$p$: a tunable parameter. \TRENTo mimics and interpolates between different initial condition models.
+${\color{red} p}$: a tunable parameter. Let model mimic and interpolate between different initial condition models.
 \end{itemize}
 \end{column}
 \begin{column}{0.35\textwidth}
-\includegraphics[width=\textwidth]{overlap_3.pdf}\\
-\includegraphics[width=\textwidth]{traincar-crop.pdf}\\
+\includegraphics[width=\textwidth]{overlap_3.pdf}
 \begin{center}
 \tiny by J S Moreland
 \end{center}
@@ -91,28 +107,41 @@ $p$: a tunable parameter. \TRENTo mimics and interpolates between different init
 \end{frame}
 
 \begin{frame}{Extending \TRENTo to finite rapidity}
-\begin{itemize}
-\item The formula,
-\begin{eqnarray}\nonumber 
-\frac{dS}{dx_\perp^2d y} \propto  s_0(\vec{x}_\perp) {\color{red}f(y, x_\perp)}.
+\begin{columns}
+\begin{column}{0.7\textwidth}
+\begin{eqnarray}
+\nonumber 
+\frac{dS}{dx_\perp^2d y} \propto
+s_0(\vec{x}_\perp, y=0)  &\times&	{\color{orange}f(y, x_\perp)}.\\
+\nonumber 
+\textrm{ \TRENTo} &\times& \textrm{{\color{orange} rapidity profile}}
 \end{eqnarray} 
-\item $s_0$: original \TRENTo prediction.
-\item {\color{red} $f(y, x_\perp)$}: rapidity profile with three degrees of freedom,\\
-mean ($\mu$), std ($\sigma$), skewness ($\gamma$), (the first three moments).
+\end{column}
+\begin{column}{0.3\textwidth}
+\includegraphics[width=\textwidth]{traincar-crop.pdf}
+\end{column}
+\end{columns}
+
+\begin{itemize}
+\item {\color{orange} $f(y, x_\perp)$} has three degrees of freedom (first 3 $y$-moments.):\\
+\begin{center}
+mean $\mu(x_\perp)$, std $\sigma(x_\perp)$, skewness $\gamma(x_\perp)$
+\end{center}
+\vspace*{-0.2cm}
 \begin{eqnarray}\nonumber 
-f(y) \propto \mathcal{F}^{-1}\exp\left\{ik\mu(x_\perp) -\frac{1}{2}[\sigma(x_\perp) k]^2 - \frac{i}{6}\gamma(x_\perp)[\sigma(x_\perp) k]^3 + ...\right\}
+f(y, x_\perp) \propto \mathcal{F}^{-1}\exp\left\{i\mu k -\frac{1}{2}(\sigma k)^2 - \frac{i}{6}\gamma(\sigma k)^3 + ...\right\}
 \end{eqnarray}
-\item $\mu$, $\sigma$, $\gamma$ parametrized in nuclear thickness functions.
+\item $\mu$, $\sigma$, $\gamma$ parametrized in nuclear thickness functions $T_A(x_\perp), T_B(x_\perp)$.
 \end{itemize}
 \begin{center}
-\begin{tabularx}{0.95\textwidth}{p{2.3cm}p{1.2cm}p{8.2cm}}
+\begin{tabularx}{0.8\textwidth}{p{2.3cm}p{1.2cm}p{6cm}}
 \hline
-mean($\mu$) & std($\sigma$) &$\left.\right.${\color{red!70}absolute} or {\color{blue!70}relative}-skewness($\gamma$) \\
+mean ($\mu$) & std ($\sigma$) &$\left.\right.${\color{red!70}absolute} or {\color{blue!70}relative}-skew ($\gamma$) \\
 \hline
 \noalign{\smallskip}
-$\frac{\mu_0}{2} \log\frac{T_A(x_\perp)}{T_B(x_\perp)}$ & $\sigma_0$ & $\left.\right.${\color{red!70}$\gamma_0(T_A(x_\perp)-T_B(x_\perp))$} 
+$\frac{\mu_0}{2} \log\frac{T_A}{T_B}$ & $\sigma_0$ & $\left.\right.${\color{red!70}$\gamma_0(T_A-T_B)$} 
 or 
-{\color{blue!70}$\gamma_0\frac{T_A(x_\perp)-T_B(x_\perp)}{T_A(x_\perp)+T_B(x_\perp)}$} \\
+{\color{blue!70}$\gamma_0\frac{T_A-T_B}{T_A+T_B}$} \\
 \noalign{\smallskip}
 \hline
 \end{tabularx}
@@ -121,33 +150,46 @@ or
 
 \section{Model to data comparison}
 \begin{frame}{Model-to-data comparison}
-Model: T\raisebox{-0.2em}{R}ENTo-3D, 3+1D Hydro {\tiny (CPC 185 (2014), 3016)}, Ultra relativistic Quantum Molecular Dynamics (UrQMD, {\tiny Prog.Part.Nucl.Phys.41:255-369,1998})
-\begin{itemize}
-\item Summary of parameters:\\
-"Transverse": normalizations, nucleon width, fluctuation, $p$.\\
-"Longitudinal": $\mu_0,\sigma_0, \gamma_0$, Jacobian
-\end{itemize}
-Data: 
-\begin{itemize}
-\item Charged particle $\eta$-distribution (ALICE Pb+Pb 2.76TeV, ATLAS $p$+Pb 5.02 TeV), reflects centrality/$\eta$ dependent entropy production.
-\item Two-particle $\eta$-correlation (ATLAS Pb+Pb 2.76 TeV), 
-sensitive to amount of longitudinal fluctuation.
-\end{itemize}
-Assuming viscous effects on the total multiplicity are mild, use ideal hydro as a first step.
+Model: T\raisebox{-0.2em}{R}ENTo-3D, 3+1D Hydro {\tiny (CPC 185 (2014), 3016)}, Ultra-relativistic Quantum Molecular Dynamics (UrQMD) {\tiny (Prog.Part.Nucl.Phys.41:255-369,1998)}
+
+
+\begin{center}
+Summary of parameters
+\begin{tabular}{c|c}
+\hline 
+Transverse & normalization, nucleon size, fluctuation, $p$ \\ 
+\hline 
+Longitudinal & $\mu_0,\sigma_0, \gamma_0$, Jacobian \\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+\begin{center}
+Experimental data
+\begin{tabularx}{0.8\textwidth}{p{4.5cm}|p{4cm}}
+\hline
+ Charged particle $\eta$-density & ALICE Pb+Pb 2.76 TeV ATLAS $p$+Pb 5.02 TeV \\ 
+\hline
+Two-particle $\eta$-correlation & ATLAS Pb+Pb 2.76 TeV \\
+\hline
+\end{tabularx}
+\end{center}
+
+Assuming viscous effects on the total multiplicity observables are mild, use ideal hydro as a first step.
 \end{frame}
 
 \begin{frame}{Bayesian model-to-data comparison}
 \begin{tikzpicture}[align=center,node distance=4cm]
     % Place nodes
-    \node [block, fill=green!10] (param) {Sample from\\ parameter space};
-    \node [block, fill=green!10, below of=param, yshift=2cm] (model) {Physics model};
+    \node [block, fill=green!10] (param) {Parameter space ($\vec{p}$)};
+    \node [block, fill=green!10, below of=param, yshift=2cm] (model) {Model calculation ($y_{\vec{p}}$)};
     \node [block, text width=12em, fill=blue!10, right of=param, xshift=2.25cm] (exp) {Experimental data};
-    \node [block, text width=14em, fill=green!10, below of=model, xshift=0.875cm, yshift=2cm] (GP) {Gaussian process emulator: fast interpolation over samples};
+    \node [block, text width=14em, fill=green!10, below of=model, xshift=0.875cm, yshift=1.5cm] (GP) {Gaussian process emulator: \\$\vec{p}\rightarrow y_{\vec{p}}$\\ Interpolate calculations over parameter space.};
     \node [block, text width=20em, fill=orange!10, right of=model, xshift=2.25cm] (Bayes) {
     Bayes' Theorem: Posterior = Likelihood$\times$Prior\\ 
     $\textrm{Likelihood} \propto e^{-\frac{1}{2} \left(y_{\textrm{exp}} - y_{\vec{p}} \right)^T \Sigma^{-1} \left(y_{\textrm{exp}} - y_{\vec{p}} \right)}$
     };
-	\node [block, fill=orange!10, below of=Bayes, xshift=0.5cm, yshift=2cm] (MCMC) {Markov Chain Monte Carlo};
+	\node [block, fill=orange!10, below of=Bayes, xshift=0.0cm, yshift=2cm] (MCMC) {Markov Chain Monte Carlo};
 	\node [block, fill=orange!10, below of=MCMC, yshift=2cm] (posterior) {Model parameters constrained by data.};
     % Draw edges
     \path [line] (param)-- (model);
@@ -164,47 +206,52 @@ Assuming viscous effects on the total multiplicity are mild, use ideal hydro as 
 \begin{frame}{After fitting to data: posterior observables}
 \begin{itemize}
 \item Nicely fit the centrality $\&$ pseudorapidity dependence of $dN_{ch}/d\eta$.
-\item $\left\langle a_1^2\right\rangle^{1/2}$: initial condition + hydro approach for two particle $\eta$-correlation breaks down at large centrality.
+\item  Initial condition + hydro approach for two particle $\eta$-correlation breaks down at large centrality.
 \end{itemize}
+\begin{center}
 \includegraphics[width=\textwidth]{post_obs.pdf}\\
 \tiny  	PLB 726 (2013) 610-622, PLB 754 (2016) 373-385, EPJ C (2016) 76:199, Nucl. Part. Phys. Proc. 276–278, 121 (2016).
+\end{center}
 \end{frame}
 
-\begin{frame}{Posterior $dS/d\eta$ for various value of $T_A$ and $T_B$}
-\begin{itemize}
-\item 3D entropy production is reverse engineered from multiplicity data.
+\begin{frame}{3D entropy production reverse engineered from data}
+
 \begin{columns}
-\begin{column}{0.6\textwidth}
+\begin{column}{0.55\textwidth}
 \includegraphics[width=\textwidth]{post_dsdy.pdf}
 \end{column}
-\begin{column}{0.4\textwidth}
+\begin{column}{0.45\textwidth}
 \begin{itemize}
-\item Figure shows $ds/d\eta$ varying $T_A$, $T_B$.
+\item $ds/d\eta$ varies with $T_A$, $T_B$.
 \item Imbalance \& fluctuations of $T_A$, $T_B$ lead to asymmetric local entropy production.
-\item What's still missing: fluctuation from early time dynamics.
+\item What's still missing: early time dynamical fluctuations.
 \end{itemize}
 \end{column}
 \end{columns}
-\end{itemize}
+
 \end{frame}
 
-\begin{frame}{Calculation of azimuthal correlation observables}
-\begin{itemize}
-\item We select parameters from posterior. Use viscous hydro ($\eta/s = 0.25$) + UrQMD to calculate $v_n\{2\}$, $v_2\{4\}$, and event-plane decorrelations.
-\end{itemize}
-\includegraphics[width=0.59\textwidth]{vn_eta.pdf}\hfill
+\begin{frame}{Apply to $\eta$-dependent azimuthal correlations.}
+Select high probability parameters. Use viscous hydro ($\eta/s \sim 0.25$) + UrQMD to calculate $v_n\{2\}$, $v_2\{4\}$, event-plane decorrelations.
+\begin{center}
+\includegraphics[width=0.59\textwidth]{vn_eta.pdf}\quad
 \includegraphics[width=0.325\textwidth]{evt_pln_decorr_near.pdf}\\
 \tiny PLB 762 (2016) 376-388, PRC 92 (2015) 034911
+\end{center}
 \end{frame}
 
 \begin{frame}{Summary}
 \begin{itemize}
-\item \TRENTo initial condition is extended to include rapidity dependence.
-\item The multiplicity data over-constrains the model parameters.
+\item \TRENTo is extended to include rapidity dependence.
+\vspace*{0.5cm}
+\item Experimental data over-constrains the model parameters.
+\vspace*{0.5cm}
 \item \colorbox{red!20}{Initial 3D entropy production reverse engineered
  from experiments.}
+\vspace*{0.5cm}
 \item \colorbox{blue!20}{Provide guidance for first principal calculation.}
-\item \colorbox{blue!20}{Could benefit small collision system simulations.}
+\vspace*{0.5cm}
+\item \colorbox{blue!20}{Could benefit small system simulations.}
 \end{itemize}
 \end{frame}
 
