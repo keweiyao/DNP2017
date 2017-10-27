@@ -18,7 +18,7 @@
 \graphicspath{{fig/}}
 
 \author[Weiyao Ke]{Weiyao Ke}
-\title[3D Initial Condition]{Constrain initial 3D entropy production in relativistic heavy-ion collisions at the LHC}
+\title[3D initial entropy production]{Constrain initial 3D entropy production in relativistic heavy-ion collisions at the LHC}
 
 %\setbeamercovered{transparent}
 %\setbeamertemplate{navigation symbols}{}
@@ -26,7 +26,7 @@
 \logo{\pgfputat{\pgfxy(0,7.7)}{\pgfbox[right,base]{\includegraphics[height=1cm]{qcdlogo.pdf}}}}
 %\newcommand{\nologo}{\setbeamertemplate{logo}{}}
 
-\institute{\small \it Duke University}
+\institute[Duke Univ.]{\small \it Duke University}
 
 \newcommand{\TRENTo}{T\raisebox{-0.2em}{R}ENTo~}
 \begin{document}
@@ -34,16 +34,18 @@
 \begin{frame}
 \titlepage
 \begin{columns}
-\begin{column}{0.65\textwidth}
+\begin{column}{0.6\textwidth}
 In collaboration with:\\
 \quad\quad J Scott Moreland\\
 \quad\quad\hspace*{0.08cm} Jonah Bernhard \\
 \quad\hspace*{0.31cm} Steffen Bass
 \end{column}
-\begin{column}{0.35\textwidth}
+\begin{column}{0.4\textwidth}
 \small PRC 96, 044912 (2017)
 \end{column}
 \end{columns}
+\vspace{0.5cm}
+\color{gray} \tiny This work was supported by OpenScienceGrid, U.S. Department of Energy Grant no. DE-FG02-05ER41367, NSF grant ACI-1550225 and the DOE/NNSA Stockpile Stewardship Graduate Fellow- ship under Grant no. DE-FC52-08NA28752.
 \end{frame}
 
 \section{Initial condition of heavy-ion collisions}
@@ -53,7 +55,7 @@ In collaboration with:\\
 \includegraphics[width=0.24\textwidth]{new100.png}
 \includegraphics[width=0.24\textwidth]{new300.png}
 \begin{itemize}
-\item Dynamical models of heavy-ion collision (hydrodynamics and other dynamical models) always require an initial condition.\\
+\item Dynamical models of heavy-ion collision require an initialization.\\
 \begin{center}
 Hydro: energy/entropy density, baryon density, fluid velocity, ...
 \end{center}
@@ -145,7 +147,7 @@ s_0(\vec{x}_\perp, y=0)  &\times&	{\color{orange}f(y, x_\perp)}.\\
 \end{columns}
 
 \begin{itemize}
-\item {\color{orange} $f(y, x_\perp)$} has three degrees of freedom (first 3 $y$-moments.):\\
+\item {\color{orange} $f(y, x_\perp)$} has three degrees of freedom (first 3 $y$-moments):\\
 \begin{center}
 mean $\mu(x_\perp)$, std $\sigma(x_\perp)$, skewness $\gamma(x_\perp)$
 \end{center}
@@ -228,7 +230,7 @@ Assuming viscous effects on the total multiplicity observables are mild, use ide
 \begin{frame}{After fitting to data: posterior observables}
 \begin{itemize}
 \item Nicely fit the centrality $\&$ pseudorapidity dependence of $dN_{ch}/d\eta$.
-\item  Initial condition + hydro approach for two particle $\eta$-correlation breaks down at large centrality.
+\item  Initial condition + hydro approach for two particle $\eta$-correlation breaks down (rms $a_1$) at large centrality.
 \end{itemize}
 \begin{center}
 \includegraphics[width=\textwidth]{post_obs.pdf}\\
