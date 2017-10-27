@@ -17,10 +17,8 @@
 
 \graphicspath{{fig/}}
 
-\author[Weiyao Ke]{Weiyao Ke, J Scott Moreland, Jonah E Bernhard, and Steffen A Bass}
-\title[3D Initial Condition]{Constrain Initial 3D Entropy Production in Relativistic heavy-ion collisions from $p$-Pb and Pb-Pb Collisions. \\
-\vspace*{0.1cm}
-\small PRC 96, 044912 (2017) }
+\author[Weiyao Ke]{Weiyao Ke}
+\title[3D Initial Condition]{Constrain initial 3D entropy production in relativistic heavy-ion collisions at the LHC}
 
 %\setbeamercovered{transparent}
 %\setbeamertemplate{navigation symbols}{}
@@ -28,38 +26,49 @@
 \logo{\pgfputat{\pgfxy(0,7.7)}{\pgfbox[right,base]{\includegraphics[height=1cm]{qcdlogo.pdf}}}}
 %\newcommand{\nologo}{\setbeamertemplate{logo}{}}
 
-\institute{Duke University}
-\date{\today}
+\institute{\small \it Duke University}
+
 \newcommand{\TRENTo}{T\raisebox{-0.2em}{R}ENTo~}
 \begin{document}
 
 \begin{frame}
 \titlepage
+\begin{columns}
+\begin{column}{0.65\textwidth}
+In collaboration with:\\
+\quad\quad J Scott Moreland\\
+\quad\quad\hspace*{0.08cm} Jonah Bernhard \\
+\quad\hspace*{0.31cm} Steffen Bass
+\end{column}
+\begin{column}{0.35\textwidth}
+\small PRC 96, 044912 (2017)
+\end{column}
+\end{columns}
 \end{frame}
 
 \section{Initial condition of heavy-ion collisions}
 \begin{frame}{Initial condition of heavy ion collision}
+\includegraphics[width=0.24\textwidth]{new1.png}
+\fbox{\includegraphics[width=0.24\textwidth]{new50.png}}
+\includegraphics[width=0.24\textwidth]{new100.png}
+\includegraphics[width=0.24\textwidth]{new300.png}
 \begin{itemize}
-\item Dynamical models of heavy-ion collision (hydrodynamics and other dynamical models), require an initial condition to start.\\
+\item Dynamical models of heavy-ion collision (hydrodynamics and other dynamical models) always require an initial condition.\\
 \begin{center}
-Hydro: energy/entropy density, fluid velocity, ...
+Hydro: energy/entropy density, baryon density, fluid velocity, ...
 \end{center}
 \item Their uncertainties propagate to the extraction of QGP properties.
-\vspace*{0.3cm}
-\item There are continuous progresses in first principal calculation of 2D (beam direction invariant) and 3D initial condition, but very hard.
-\vspace*{0.3cm}
-\item Just look at entropy density. How / what can we learn from data about 3D entropy production?
-\begin{center}
-\colorbox{orange!40}{Systemically comparing a parametric model to data.}
-\end{center}
+\item A 3+1D evolution needs a 3D initial condition. In some cases, assume invariance in the beam direction (3D$\rightarrow$2D).
+\item Many progresses in modeling the 2D initial condition. How about 3D?
+
 \end{itemize}
 \end{frame}
 
 \begin{frame}{When beam direction evolution becomes important.}
 \begin{itemize}
-\item Looking at midrapidity in A-A, usually assume invariance in beam direction ($\eta$).
-\item Rapidity dependent observables necessitate a 3D initial condition.
-\item In small system ($p$-A): strong asymmetry in beam direction.
+\item<1-> Looking at midrapidity A-A, beam direction ($\eta$) invariance is not bad.
+\item<3-> Rapidity dependent observables necessitate a 3D initial condition.
+\item<5-> In small system ($p$-A): strong asymmetry in beam direction.
 \end{itemize}
 
 \begin{overprint}
@@ -74,10 +83,23 @@ Hydro: energy/entropy density, fluid velocity, ...
 \onslide<5->
 \includegraphics[width=0.67\textwidth]{nuclei_demo_02.pdf}
 \includegraphics[width=0.33\textwidth]{pPb-ATLAS.png}\\
-\end{overprint}
 \hspace{9cm}\tiny EPJ C (2016) 76:199
+\end{overprint}
+
 \end{frame}
 
+\begin{frame}{Constrain 3D entropy production from data}
+\begin{itemize}
+\item There are already various approaches to 3D initial conditions including recent progress in first principal calculation.
+\item A data-driven way: how / what can we learn about this from data?
+\item We focus on 3D entropy production.
+\begin{center}
+\colorbox{orange!40}{Systemically comparing a parametric model to data.}\\
+$\downarrow$ \\
+\colorbox{orange!40}{Entropy production reverse engineered from data.}
+\end{center}
+\end{itemize}
+\end{frame}
 
 \section{Parametric longitudinal information}
 \begin{frame}{A phenomenological model for 3D entropy production}
@@ -150,7 +172,7 @@ or
 
 \section{Model to data comparison}
 \begin{frame}{Model-to-data comparison}
-Model: T\raisebox{-0.2em}{R}ENTo-3D, 3+1D Hydro {\tiny (CPC 185 (2014), 3016)}, Ultra-relativistic Quantum Molecular Dynamics (UrQMD) {\tiny (Prog.Part.Nucl.Phys.41:255-369,1998)}
+Model: T\raisebox{-0.2em}{R}ENTo-3D, 3+1D Hydro {\tiny (CPC 185 (2014), 3016)}, Ultra-relativistic Quantum Molecular Dynamics {\tiny (Prog.Part.Nucl.Phys.41:255-369,1998)}
 
 
 \begin{center}
@@ -184,7 +206,7 @@ Assuming viscous effects on the total multiplicity observables are mild, use ide
     \node [block, fill=green!10] (param) {Parameter space ($\vec{p}$)};
     \node [block, fill=green!10, below of=param, yshift=2cm] (model) {Model calculation ($y_{\vec{p}}$)};
     \node [block, text width=12em, fill=blue!10, right of=param, xshift=2.25cm] (exp) {Experimental data};
-    \node [block, text width=14em, fill=green!10, below of=model, xshift=0.875cm, yshift=1.5cm] (GP) {Gaussian process emulator: \\$\vec{p}\rightarrow y_{\vec{p}}$\\ Interpolate calculations over parameter space.};
+    \node [block, text width=14em, fill=green!10, below of=model, xshift=0.875cm, yshift=1.5cm] (GP) {Gaussian process emulator: \\$\vec{p}\rightarrow y_{\vec{p}}$\\ Interpolate calculation over parameter space.};
     \node [block, text width=20em, fill=orange!10, right of=model, xshift=2.25cm] (Bayes) {
     Bayes' Theorem: Posterior = Likelihood$\times$Prior\\ 
     $\textrm{Likelihood} \propto e^{-\frac{1}{2} \left(y_{\textrm{exp}} - y_{\vec{p}} \right)^T \Sigma^{-1} \left(y_{\textrm{exp}} - y_{\vec{p}} \right)}$
@@ -232,7 +254,7 @@ Assuming viscous effects on the total multiplicity observables are mild, use ide
 \end{frame}
 
 \begin{frame}{Apply to $\eta$-dependent azimuthal correlations.}
-Select high probability parameters. Use viscous hydro ($\eta/s \sim 0.25$) + UrQMD to calculate $v_n\{2\}$, $v_2\{4\}$, event-plane decorrelations.
+Select high probability parameters. Use viscous hydro + UrQMD to calculate $v_n\{2\}$, $v_2\{4\}$, event-plane decorrelations.
 \begin{center}
 \includegraphics[width=0.59\textwidth]{vn_eta.pdf}\quad
 \includegraphics[width=0.325\textwidth]{evt_pln_decorr_near.pdf}\\
@@ -251,7 +273,7 @@ Select high probability parameters. Use viscous hydro ($\eta/s \sim 0.25$) + UrQ
 \vspace*{0.5cm}
 \item \colorbox{blue!20}{Provide guidance for first principal calculation.}
 \vspace*{0.5cm}
-\item \colorbox{blue!20}{Could benefit small system simulations.}
+\item \colorbox{blue!20}{Could benefit 3+1D simulations.}
 \end{itemize}
 \end{frame}
 
